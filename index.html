@@ -1,1 +1,405 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LOSTFREQUENCY</title><link rel="stylesheet" href="styles.css"></head><body><header><b>LOSTFREQUENCY</b><span>PRIVATE ARCHIVE</span><button id="menu">MENU</button></header><main><section class="hero"><small>LF—001 / PERSONAL MUSIC ARCHIVE</small><h1>LOST<br><i>FREQUENCY</i></h1><div class="heroBottom"><span>UNRELEASED / RARITIES / FRAGMENTS</span><button id="enter">ENTER ARCHIVE ↓</button></div></section><section id="archive"><div class="head"><span>THE ARCHIVE</span><span id="count">00 TRACKS</span></div><div class="feature"><div class="art"><img id="featureArt" alt="Cover art"></div><div><small>NOW SELECTED</small><h2 id="featureTitle">NOTHING LOADED</h2><p id="featureMeta">Add your first track.</p><button id="featurePlay">PLAY</button><button id="shuffle">SHUFFLE</button><small class="hint">PHONE: SWIPE COVER LEFT / RIGHT TO SKIP</small></div></div><div class="toolbar"><button id="add">+ ADD TO ARCHIVE</button><button id="newPlaylist">+ NEW PLAYLIST</button><input id="search" placeholder="SEARCH ARCHIVE"></div><div class="layout"><div id="tracks"></div><aside><small>PLAYLISTS</small><div id="playlists">No playlists yet.</div></aside></div></section></main><div id="player"><img id="playerArt"><div><b id="now">NOT PLAYING</b><div><span id="time">0:00</span><input id="progress" type="range" min="0" max="100" value="0"><span id="dur">0:00</span></div></div><button id="prev">◀◀</button><button id="play">▶</button><button id="next">▶▶</button><button id="pshuffle">⤨</button></div><dialog id="trackDialog"><form method="dialog" id="trackForm"><b>NEW ARCHIVE ENTRY</b><label>Audio <input id="audioFile" type="file" accept="audio/*" required></label><label>Cover art <input id="artFile" type="file" accept="image/*"></label><label>Title <input id="title" required></label><label>Artist <input id="artist"></label><label>Album / Era <input id="album"></label><label>Year <input id="year" type="number"></label><label>Notes <textarea id="notes"></textarea></label><button>ADD TO ARCHIVE</button></form></dialog><dialog id="playlistDialog"><form method="dialog" id="playlistForm"><b>NEW PLAYLIST</b><label>Name <input id="playlistName" required></label><button>CREATE PLAYLIST</button></form></dialog><audio id="audio"></audio><script src="app.js"></script></body></html>
+<!doctype html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>LOSTFREQUENCY</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header>
+    <b>LOSTFREQUENCY</b>
+    <span>PRIVATE ARCHIVE</span>
+    <button id="menu">MENU</button>
+</header>
+
+<main>
+
+<section class="hero">
+    <small>LF—001 / PERSONAL MUSIC ARCHIVE</small>
+
+```
+<h1>
+    LOST<br>
+    <i>FREQUENCY</i>
+</h1>
+
+<div class="heroBottom">
+    <span>UNRELEASED / RARITIES / FRAGMENTS</span>
+    <button id="enter">ENTER ARCHIVE ↓</button>
+</div>
+```
+
+</section>
+
+<section id="archive">
+
+```
+<div class="head">
+    <span>THE ARCHIVE</span>
+    <span id="count">00 TRACKS</span>
+</div>
+
+
+<div class="feature">
+
+    <div class="art">
+        <img id="featureArt" alt="Cover art">
+    </div>
+
+    <div>
+        <small>NOW SELECTED</small>
+
+        <h2 id="featureTitle">
+            NOTHING LOADED
+        </h2>
+
+        <p id="featureMeta">
+            Add your first track.
+        </p>
+
+        <button id="featurePlay">
+            PLAY
+        </button>
+
+        <button id="shuffle">
+            SHUFFLE
+        </button>
+
+        <small class="hint">
+            PHONE: SWIPE COVER LEFT / RIGHT TO SKIP
+        </small>
+    </div>
+
+</div>
+
+
+<div class="toolbar">
+
+    <button id="add">
+        + ADD TO ARCHIVE
+    </button>
+
+    <button id="newPlaylist">
+        + NEW PLAYLIST
+    </button>
+
+    <input
+        id="search"
+        placeholder="SEARCH ARCHIVE"
+    >
+
+</div>
+
+
+<div class="layout">
+
+    <div id="tracks"></div>
+
+    <aside>
+        <small>PLAYLISTS</small>
+        <div id="playlists">
+            No playlists yet.
+        </div>
+    </aside>
+
+</div>
+```
+
+</section>
+
+</main>
+
+<!-- BOTTOM PLAYER -->
+
+<div id="player">
+
+```
+<button id="playerOpen" class="playerArtButton">
+    <img id="playerArt" alt="Current artwork">
+</button>
+
+<div class="playerInfo">
+
+    <b id="now">
+        NOT PLAYING
+    </b>
+
+    <div class="playerProgress">
+
+        <span id="time">
+            0:00
+        </span>
+
+        <input
+            id="progress"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+            step="0.1"
+        >
+
+        <span id="dur">
+            0:00
+        </span>
+
+    </div>
+
+</div>
+
+<button id="prev" aria-label="Previous">
+    ◀◀
+</button>
+
+<button id="play" aria-label="Play">
+    ▶
+</button>
+
+<button id="next" aria-label="Next">
+    ▶▶
+</button>
+
+<button id="pshuffle" aria-label="Shuffle">
+    ⤨
+</button>
+```
+
+</div>
+
+<!-- FULL SCREEN NOW PLAYING -->
+
+<div id="nowPlaying">
+
+```
+<div class="nowPlayingInner">
+
+    <div class="npTop">
+
+        <button id="closeNowPlaying">
+            ← ARCHIVE
+        </button>
+
+        <span>
+            NOW PLAYING
+        </span>
+
+        <span>
+            LF—001
+        </span>
+
+    </div>
+
+
+    <div class="npContent">
+
+        <div class="npArtworkWrap">
+
+            <img
+                id="nowArt"
+                class="npArtwork"
+                alt="Now playing artwork"
+            >
+
+        </div>
+
+
+        <div class="npDetails">
+
+            <small>NOW PLAYING</small>
+
+            <h2 id="nowTitle">
+                NOTHING LOADED
+            </h2>
+
+            <p id="nowMeta">
+                —
+            </p>
+
+
+            <div class="npProgressArea">
+
+                <input
+                    id="nowProgress"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="0"
+                    step="0.1"
+                >
+
+                <div class="npTimes">
+
+                    <span id="nowTime">
+                        0:00
+                    </span>
+
+                    <span id="nowDuration">
+                        0:00
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="npControls">
+
+                <button
+                    id="nowShuffle"
+                    aria-label="Shuffle"
+                >
+                    ⤨
+                </button>
+
+                <button
+                    id="nowPrev"
+                    aria-label="Previous song"
+                >
+                    ◀◀
+                </button>
+
+                <button
+                    id="nowPlay"
+                    class="bigPlay"
+                    aria-label="Play"
+                >
+                    ▶
+                </button>
+
+                <button
+                    id="nowNext"
+                    aria-label="Next song"
+                >
+                    ▶▶
+                </button>
+
+                <button
+                    id="browseArchive"
+                    aria-label="Browse archive"
+                >
+                    ☰
+                </button>
+
+            </div>
+
+
+            <button
+                id="browseArchiveText"
+                class="browseButton"
+            >
+                BROWSE ALL SONGS
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<!-- ADD TRACK -->
+
+<dialog id="trackDialog">
+
+```
+<form method="dialog" id="trackForm">
+
+    <b>NEW ARCHIVE ENTRY</b>
+
+    <label>
+        Audio
+        <input
+            id="audioFile"
+            type="file"
+            accept="audio/*"
+            required
+        >
+    </label>
+
+    <label>
+        Cover art
+        <input
+            id="artFile"
+            type="file"
+            accept="image/*"
+        >
+    </label>
+
+    <label>
+        Title
+        <input
+            id="title"
+            required
+        >
+    </label>
+
+    <label>
+        Artist
+        <input id="artist">
+    </label>
+
+    <label>
+        Album / Era
+        <input id="album">
+    </label>
+
+    <label>
+        Year
+        <input
+            id="year"
+            type="number"
+        >
+    </label>
+
+    <label>
+        Notes
+        <textarea id="notes"></textarea>
+    </label>
+
+    <button type="submit">
+        ADD TO ARCHIVE
+    </button>
+
+</form>
+```
+
+</dialog>
+
+<!-- NEW PLAYLIST -->
+
+<dialog id="playlistDialog">
+
+```
+<form method="dialog" id="playlistForm">
+
+    <b>NEW PLAYLIST</b>
+
+    <label>
+        Name
+        <input
+            id="playlistName"
+            required
+        >
+    </label>
+
+    <button type="submit">
+        CREATE PLAYLIST
+    </button>
+
+</form>
+```
+
+</dialog>
+
+<audio id="audio"></audio>
+
+<script src="app.js"></script>
+
+</body>
+</html>
